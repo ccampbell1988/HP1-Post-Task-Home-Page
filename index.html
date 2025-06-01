@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" class=""> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HP1 Post Task Main Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Global Styles --- */
+        :root {
+            --bg-light: #FDFDFD;
+            --text-light: #334155;
+            --header-bg-light: #0A2463;
+            --header-text-light: white;
+            --section-heading-text-light: #0A2463;
+            --section-border-light-start: #3E8E7E;
+            --section-border-light-end: #2c6b5d;
+            --link-text-light: #0A2463;
+            --link-hover-text-light: #3E8E7E;
+            --link-hover-bg-light: #f0fdfa;
+            --checkbox-border-light: #94a3b8;
+            --checkbox-checked-bg-light: #3E8E7E;
+            --footer-bg-light: #0A2463;
+            --footer-text-light: white;
+
+            --bg-dark: #111827; /* bg-gray-900 */
+            --text-dark: #d1d5db; /* text-gray-300 */
+            --header-bg-dark: #1f2937; /* bg-gray-800 */
+            --header-text-dark: #e5e7eb; /* text-gray-200 */
+            --section-heading-text-dark: #60a5fa; /* text-blue-400 */
+            --section-border-dark-start: #5eead4; /* text-teal-300 */
+            --section-border-dark-end: #2dd4bf; /* text-teal-400 */
+            --link-text-dark: #93c5fd; /* text-blue-300 */
+            --link-hover-text-dark: #5eead4; /* text-teal-300 */
+            --link-hover-bg-dark: #374151; /* bg-gray-700 */
+            --checkbox-border-dark: #6b7280; /* border-gray-500 */
+            --checkbox-checked-bg-dark: #5eead4; /* teal-300 */
+            --footer-bg-dark: #1f2937;
+            --footer-text-dark: #e5e7eb;
+        }
+
+        html.dark {
+            color-scheme: dark;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        html.dark body {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        /* --- Sticky Header --- */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: var(--header-bg-light);
+            color: var(--header-text-light);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        html.dark .sticky-header {
+            background-color: var(--header-bg-dark);
+            color: var(--header-text-dark);
+        }
+
+        /* --- Page Navigation Link Styling --- */
+        .page-link {
+            color: var(--link-text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+            padding: 0.35rem 0.6rem; /* Slightly increased padding */
+            border-radius: 0.375rem; /* rounded-md */
+            display: inline-block;
+        }
+        html.dark .page-link {
+            color: var(--link-text-dark);
+        }
+        .page-link:hover {
+            color: var(--link-hover-text-light);
+            background-color: var(--link-hover-bg-light);
+            text-decoration: underline;
+            transform: translateY(-1px); /* Subtle lift on hover */
+        }
+        html.dark .page-link:hover {
+            color: var(--link-hover-text-dark);
+            background-color: var(--link-hover-bg-dark);
+        }
+        .page-link-sm {
+            font-size: 0.875rem;
+            color: var(--link-hover-text-light); /* Using hover color for emphasis */
+        }
+        html.dark .page-link-sm {
+             color: var(--link-hover-text-dark);
+        }
+        .page-link-sm:hover {
+            text-decoration: underline;
+            color: var(--link-text-light);
+        }
+        html.dark .page-link-sm:hover {
+            color: var(--link-text-dark);
+        }
+
+
+        /* --- Section Title Styling --- */
+        .section-heading {
+            font-size: 1.75rem; /* text-2xl or slightly larger */
+            font-weight: 700; 
+            color: var(--section-heading-text-light);
+            margin-bottom: 1.25rem; /* mb-5 */
+            padding-bottom: 0.75rem; /* pb-3 */
+            border-bottom-width: 3px; /* Thicker border */
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--section-border-light-start), var(--section-border-light-end));
+            transition: color 0.3s ease, border-image-source 0.3s ease;
+        }
+        html.dark .section-heading {
+            color: var(--section-heading-text-dark);
+            border-image-source: linear-gradient(to right, var(--section-border-dark-start), var(--section-border-dark-end));
+        }
+        
+        /* --- Item Text (Not a link) --- */
+        .item-text {
+            font-weight: 600;
+            color: var(--text-light); /* Use general text color */
+            padding: 0.25rem 0.5rem;
+        }
+        html.dark .item-text {
+            color: var(--text-dark);
+        }
+
+
+        /* --- Custom List for 7a, 7b --- */
+        .custom-list-alpha {
+            list-style-type: none;
+            padding-left: 0.5rem;
+            counter-reset: list-item;
+            margin-top: 0.5rem;
+        }
+        .custom-list-alpha li::before {
+            content: counter(list-item, lower-alpha) ". ";
+            counter-increment: list-item;
+            color: var(--section-border-light-start); /* Teal accent */
+            font-weight: bold;
+            margin-right: 0.25rem;
+        }
+        html.dark .custom-list-alpha li::before {
+            color: var(--section-border-dark-start);
+        }
+        .custom-list-alpha li {
+            margin-bottom: 0.25rem;
+        }
+        
+        /* --- Checkbox Styling --- */
+        .form-checkbox {
+            appearance: none;
+            padding: 0;
+            display: inline-block;
+            width: 1.35em; /* Slightly larger */
+            height: 1.35em;
+            border-radius: 0.375rem; /* rounded-md */
+            border: 2px solid var(--checkbox-border-light); /* Thicker border */
+            vertical-align: middle;
+            margin-right: 0.75rem;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+        }
+        html.dark .form-checkbox {
+            border-color: var(--checkbox-border-dark);
+        }
+        .form-checkbox:checked {
+            background-color: var(--checkbox-checked-bg-light);
+            border-color: var(--checkbox-checked-bg-light);
+            transform: scale(1.05); /* Slight scale on check */
+        }
+        html.dark .form-checkbox:checked {
+            background-color: var(--checkbox-checked-bg-dark);
+            border-color: var(--checkbox-checked-bg-dark);
+        }
+        .form-checkbox:checked::after {
+            content: '';
+            display: block;
+            width: 0.4em;
+            height: 0.75em;
+            border: solid white;
+            border-width: 0 3px 3px 0; /* Thicker checkmark */
+            transform: rotate(45deg);
+            position: absolute;
+            top: 0.1em; 
+            left: 0.4em;
+        }
+        .form-checkbox:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px var(--bg-light), 0 0 0 5px var(--checkbox-checked-bg-light);
+        }
+        html.dark .form-checkbox:focus {
+             box-shadow: 0 0 0 3px var(--bg-dark), 0 0 0 5px var(--checkbox-checked-bg-dark);
+        }
+        .checkbox-label {
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        html.dark .checkbox-label {
+            color: var(--text-dark);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--footer-bg-light);
+            color: var(--footer-text-light);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        html.dark footer {
+            background-color: var(--footer-bg-dark);
+            color: var(--footer-text-dark);
+        }
+
+
+        /* --- Scroll Animation --- */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sections for scroll spy/offset */
+        section[id^="nav-section-"] {
+            padding-top: 1rem; /* Reduced padding as header nav is gone, but still useful for direct # links */
+            margin-top: -1rem; 
+        }
+        
+        /* Dark Mode Toggle Button */
+        #darkModeToggle {
+            background: none;
+            border: 1px solid var(--header-text-light);
+            color: var(--header-text-light);
+            padding: 0.4rem 0.6rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            font-size: 0.8rem;
+        }
+        html.dark #darkModeToggle {
+            border-color: var(--header-text-dark);
+            color: var(--header-text-dark);
+        }
+        #darkModeToggle:hover {
+            background-color: var(--header-text-light);
+            color: var(--header-bg-light);
+        }
+        html.dark #darkModeToggle:hover {
+            background-color: var(--header-text-dark);
+            color: var(--header-bg-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header" class="sticky-header shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center"> 
+            <h1 class="text-lg sm:text-xl font-bold">2025 Carlee Campbell HP1 Post Task Navigation</h1>
+            <button id="darkModeToggle" title="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <span class="ml-1">Theme</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 py-8">
+
+        <section id="nav-section-a" class="mb-10 scroll-animate">
+            <h2 class="section-heading">SECTION A: CORE COACHING COMPETENCIES</h2>
+            <ul class="space-y-3 text-lg">
+                <li><a href="#performance-planning" class="page-link">1. Performance Planning (25 Marks)</a></li>
+                <li><a href="#teaching-leadership" class="page-link">2. Teaching and Leadership in Coaching (15 Marks)</a></li>
+            </ul>
+        </section>
+
+        <section id="nav-section-b" class="mb-10 scroll-animate">
+            <h2 class="section-heading">SECTION B: THE ART OF COACHING COMPETENCIES</h2>
+            <ul class="space-y-3 text-lg">
+                <li><a href="#player-evaluation" class="page-link">3. Player Evaluation & Selection (10 Marks)</a></li>
+                <li><a href="#physical-prep" class="page-link">4. Physical Preparation (10 Marks)</a></li>
+                <li><a href="#mental-prep" class="page-link">5. Mental Preparation (10 marks)</a></li>
+                <li><a href="#team-building" class="page-link">6. Team Building (10 marks)</a></li>
+            </ul>
+        </section>
+
+        <section id="nav-section-c" class="mb-10 scroll-animate">
+            <h2 class="section-heading">SECTION C: TECHNICAL, TACTICAL AND SYSTEMS COMPETENCIES</h2>
+            <ul class="space-y-3 text-lg">
+                <li>
+                    <span class="item-text">7. Skill Assessment (15 Marks)</span>
+                    <ul class="ml-6 custom-list-alpha text-base">
+                        <li><a href="#skill-assessment-part-a" class="page-link">Part A (5 marks)</a></li>
+                        <li><a href="#skill-assessment-part-b" class="page-link">Part B (10 marks)</a></li>
+                    </ul>
+                </li>
+                <li><a href="#offensive-play" class="page-link">8. Offensive Team Play (20 marks)</a></li>
+                <li><a href="#defensive-play" class="page-link">9. Defensive Team Play (20 marks)</a></li>
+                <li><a href="#power-play" class="page-link">10. Power Play (20 marks)</a></li>
+                <li><a href="#penalty-kill" class="page-link">11. Penalty Kill (20 marks)</a></li>
+            </ul>
+        </section>
+
+        <section id="nav-section-d" class="mb-10 scroll-animate">
+            <h2 class="section-heading">SECTION D: MODULES TO BE EVALUATED ONLINE</h2>
+            <ul class="space-y-4 text-lg">
+                <li class="flex items-center">
+                    <input type="checkbox" id="d1" name="d1" class="form-checkbox">
+                    <label for="d1" class="checkbox-label">1. Leading Drug-free Sport (eLearning and online evaluation)</label>
+                </li>
+                <li class="flex items-center">
+                    <input type="checkbox" id="d2" name="d2" class="form-checkbox">
+                    <label for="d2" class="checkbox-label">2. Make Ethical Decisions (online evaluation)</label>
+                </li>
+                <li class="flex items-center">
+                    <input type="checkbox" id="d3" name="d3" class="form-checkbox">
+                    <label for="d3" class="checkbox-label">3. Managing Conflict (online evaluation)</label>
+                </li>
+            </ul>
+        </section>
+
+        <section id="nav-section-e" class="mb-10 scroll-animate">
+            <h2 class="section-heading">SECTION E: MODULES TO BE EVALUATED IN THE FIELD EVALUATIONS</h2>
+            <ul class="space-y-4 text-lg">
+                <li class="flex items-center">
+                    <input type="checkbox" id="e1" name="e1" class="form-checkbox">
+                    <label for="e1" class="checkbox-label">1. Effective Use of Technology</label>
+                </li>
+                <li class="flex items-center">
+                    <input type="checkbox" id="e2" name="e2" class="form-checkbox">
+                    <label for="e2" class="checkbox-label">2. Make Hockey Safe</label>
+                    <a href="#emergency-action-plan" class="page-link page-link-sm ml-2">(Emergency Action Plan)</a>
+                </li>
+                <li class="flex items-center">
+                    <input type="checkbox" id="e3" name="e3" class="form-checkbox">
+                    <label for="e3" class="checkbox-label">3. Game & Bench Management</label>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#0A2463] text-white text-center p-6 mt-12">
+        <p class="text-sm">&copy; 2025 Carlee Campbell HP1 Program Post Task Delivery. All rights reserved.</p>
+        <p class="text-xs mt-1 opacity-75">Navigation Page</p>
+    </footer>
+
+    <script>
+        // --- Dark Mode Toggle ---
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const htmlElement = document.documentElement;
+
+        // Check for saved theme preference or system preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // --- Smooth Scroll for Page Links ---
+        const header = document.getElementById('header'); 
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a.page-link[href^="#"]').forEach(pageLinkAnchor => {
+                pageLinkAnchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId.length > 1 && targetId.startsWith('#')) {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement && header) {
+                            e.preventDefault(); 
+                            const headerOffset = header.offsetHeight;
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = window.pageYOffset + elementPosition - headerOffset;
+                            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                        } else if (targetElement) {
+                             e.preventDefault(); 
+                             const elementPosition = targetElement.getBoundingClientRect().top;
+                             const offsetPosition = window.pageYOffset + elementPosition;
+                             window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                        }
+                    }
+                });
+            });
+
+            // --- Scroll Animations ---
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        // Optional: unobserve after animation to save resources
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+    </script>
+</body>
+</html>
